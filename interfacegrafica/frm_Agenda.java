@@ -5,6 +5,7 @@
  */
 package interfacegrafica;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -65,6 +66,11 @@ public class frm_Agenda extends javax.swing.JFrame {
                 "Nome", "Telefone"
             }
         ));
+        tbLista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbListaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbLista);
 
         btnInserir.setText("Inserir");
@@ -75,8 +81,18 @@ public class frm_Agenda extends javax.swing.JFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnAtualizar.setText("Atualizar");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarActionPerformed(evt);
+            }
+        });
 
         try {
             txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
@@ -151,6 +167,32 @@ public class frm_Agenda extends javax.swing.JFrame {
         dtmAgenda.addRow(dados);
         
     }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        if (tbLista.getSelectedRow() != -1) {
+            DefaultTableModel dtmAgenda = (DefaultTableModel) tbLista.getModel();
+            dtmAgenda.removeRow(tbLista.getSelectedRow());
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um Registro");
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+        // TODO add your handling code here:
+        if (tbLista.getSelectedRow() != -1) {
+            tbLista.setValueAt(txtNome.getText(), tbLista.getSelectedRow(), 0);
+            tbLista.setValueAt(txtTelefone.getText(), tbLista.getSelectedRow(), 1);
+        }
+    }//GEN-LAST:event_btnAtualizarActionPerformed
+
+    private void tbListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbListaMouseClicked
+        // TODO add your handling code here:
+        if (tbLista.getSelectedRow() != -1) {
+            txtNome.setText(tbLista.getValueAt(tbLista.getSelectedRow(), 0).toString());
+            txtTelefone.setText(tbLista.getValueAt(tbLista.getSelectedRow(), 1).toString());
+        }
+    }//GEN-LAST:event_tbListaMouseClicked
 
     /**
      * @param args the command line arguments
