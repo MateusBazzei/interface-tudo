@@ -42,6 +42,8 @@ public class frm_Agenda extends javax.swing.JFrame {
         btnExcluir = new javax.swing.JButton();
         btnAtualizar = new javax.swing.JButton();
         txtTelefone = new javax.swing.JFormattedTextField();
+        cbSexo = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -63,9 +65,17 @@ public class frm_Agenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Telefone"
+                "Nome", "Telefone", "Sexo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbLista.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbListaMouseClicked(evt);
@@ -73,6 +83,7 @@ public class frm_Agenda extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbLista);
 
+        btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfacegrafica/botao-adicionar.png"))); // NOI18N
         btnInserir.setText("Inserir");
         btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +111,10 @@ public class frm_Agenda extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
+        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino" }));
+
+        jLabel4.setText("Sexo:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,15 +128,17 @@ public class frm_Agenda extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtNome)
-                                            .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtTelefone)
+                                            .addComponent(cbSexo, 0, 209, Short.MAX_VALUE))))
                                 .addGap(0, 8, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
@@ -146,14 +163,18 @@ public class frm_Agenda extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInserir)
                     .addComponent(btnExcluir)
                     .addComponent(btnAtualizar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,8 +184,14 @@ public class frm_Agenda extends javax.swing.JFrame {
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
         // TODO add your handling code here:
         DefaultTableModel dtmAgenda = (DefaultTableModel) tbLista.getModel();
-        Object[] dados = {txtNome.getText(), txtTelefone.getText()};
+        Object[] dados = {txtNome.getText(), txtTelefone.getText(),cbSexo.getSelectedItem()};
         dtmAgenda.addRow(dados);
+        txtNome.setText("");
+        txtTelefone.setText("");
+        txtNome.requestFocus();
+        
+        
+        
         
     }//GEN-LAST:event_btnInserirActionPerformed
 
@@ -183,6 +210,7 @@ public class frm_Agenda extends javax.swing.JFrame {
         if (tbLista.getSelectedRow() != -1) {
             tbLista.setValueAt(txtNome.getText(), tbLista.getSelectedRow(), 0);
             tbLista.setValueAt(txtTelefone.getText(), tbLista.getSelectedRow(), 1);
+            tbLista.setValueAt(cbSexo.getSelectedItem(), tbLista.getSelectedRow(), 2);
         }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
@@ -233,9 +261,11 @@ public class frm_Agenda extends javax.swing.JFrame {
     private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnInserir;
+    private javax.swing.JComboBox<String> cbSexo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
